@@ -1,8 +1,21 @@
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.github.jengelman.gradle.plugins:shadow:5.2.0"
+  }
+}
+
 plugins {
     id 'java'
     id 'eclipse'
 	id 'maven-publish'
 }
+
+apply plugin: 'com.github.johnrengelman.shadow'
 
 repositories {
     mavenLocal()
@@ -15,15 +28,24 @@ repositories {
     }
 
     maven {
-        url = 'http://repo.maven.apache.org/maven2'
+        url = 'https://repo.maven.apache.org/maven2'
     }
+    
+    maven {
+    	url = 'https://repo.codemc.org/repository/maven-public/'
+    }
+    
+    maven {
+		url = 'https://jitpack.io'
+	}
 }
 
 dependencies {
-    implementation 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
-	compileOnly 'org.jetbrains:annotations:17.0.0'
+    shadow 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
+	shadow 'org.jetbrains:annotations:17.0.0'
+	implementation 'de.tr7zw:item-nbt-api:2.3.1'
 	
-	implementation project(":AlchemicLibrary")
+	shadow project(":AlchemicLibrary")
 }
 
 group = 'me.alchemi'
@@ -32,7 +54,7 @@ description = 'Glyphwords'
 sourceCompatibility = '1.8'
 
 task copy(type: Copy) {
-	dependsOn 'jar'
+	dependsOn 'shadowJar'
 	group = 'Build'
 	description = 'Install project to Test-Server.'
 	
@@ -50,7 +72,7 @@ processResources {
 }
 
 task export(type: Copy) {
-	dependsOn 'jar'
+	dependsOn 'shadowJar'
 	dependsOn 'publishToMavenLocal'
 	finalizedBy 'incrementVersion'
 	
@@ -60,6 +82,21 @@ task export(type: Copy) {
 	doLast{
 		project.logger.lifecycle 'Exporting to jar file.'
 	}
+}
+
+shadowJar {
+	baseName = project.description
+	classifier = ''
+	archiveVersion = project.version
+	
+	doFirst{
+		relocate 'de.tr7zw.changeme.nbtapi', 'de.tr7zw.alchemi.nbtapi'
+	
+		project.logger.lifecycle 'Building jar file...'
+		project.logger.lifecycle 'Version ' + project.version
+	}
+	minimize()
+
 }
 
 task incrementVersion {

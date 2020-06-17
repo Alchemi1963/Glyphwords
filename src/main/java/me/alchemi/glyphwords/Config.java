@@ -119,7 +119,7 @@ public class Config extends ConfigBase{
 		
 		@Override
 		public Material asMaterial() {
-			return Material.getMaterial(asString());
+			return Material.getMaterial(asString().toUpperCase());
 		}
 		
 		@SuppressWarnings("unchecked")

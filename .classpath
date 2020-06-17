@@ -1,19 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="bin/main" path="src/main/java">
+	<classpathentry output="bin/main" kind="src" path="src/main/java">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="bin/main" path="src/main/resources">
+	<classpathentry output="bin/main" kind="src" path="src/main/resources">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="src" path="/AlchemicLibrary"/>
 	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
+	<classpathentry kind="src" path="/AlchemicLibrary"/>
+	<classpathentry sourcepath="C:/Users/Alchemi/.gradle/caches/modules-2/files-2.1/de.tr7zw/item-nbt-api/2.3.1/f89f48d5a262ee797a4b28ea855f715aeb5c0312/item-nbt-api-2.3.1-sources.jar" kind="lib" path="C:/Users/Alchemi/.gradle/caches/modules-2/files-2.1/de.tr7zw/item-nbt-api/2.3.1/a5d69175cfa7f6ca1390abbe3bda12647924ce82/item-nbt-api-2.3.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/Alchemi/.m2/repository/org/spigotmc/spigot-api/1.15.2-R0.1-SNAPSHOT/spigot-api-1.15.2-R0.1-SNAPSHOT-sources.jar" kind="lib" path="C:/Users/Alchemi/.m2/repository/org/spigotmc/spigot-api/1.15.2-R0.1-SNAPSHOT/spigot-api-1.15.2-R0.1-SNAPSHOT.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value=""/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/Alchemi/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0-sources.jar" kind="lib" path="C:/Users/Alchemi/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value=""/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/Alchemi/.gradle/caches/modules-2/files-2.1/de.tr7zw/functional-annotations/0.1-SNAPSHOT/fc795567b86dd409eb94b3d92ef36028cd668029/functional-annotations-0.1-SNAPSHOT-sources.jar" kind="lib" path="C:/Users/Alchemi/.gradle/caches/modules-2/files-2.1/de.tr7zw/functional-annotations/0.1-SNAPSHOT/59ccfb17012d67b06c6e714f80810fba988a0047/functional-annotations-0.1-SNAPSHOT.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/Alchemi/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6-sources.jar" kind="lib" path="C:/Users/Alchemi/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value=""/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Alchemi/.m2/repository/net/md-5/bungeecord-chat/1.15-SNAPSHOT/bungeecord-chat-1.15-SNAPSHOT.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value=""/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/Alchemi/.m2/repository/com/google/guava/guava/21.0/guava-21.0-sources.jar" kind="lib" path="C:/Users/Alchemi/.m2/repository/com/google/guava/guava/21.0/guava-21.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value=""/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/Alchemi/.m2/repository/com/google/code/gson/gson/2.8.0/gson-2.8.0-sources.jar" kind="lib" path="C:/Users/Alchemi/.m2/repository/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value=""/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Alchemi/.m2/repository/org/yaml/snakeyaml/1.25/snakeyaml-1.25.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value=""/>
+		</attributes>
+	</classpathentry>
 </classpath>
