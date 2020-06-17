@@ -1,0 +1,4 @@
+rootProject.name = 'Glyphwords'
+
+include(":AlchemicLibrary")
+project(":AlchemicLibrary").projectDir = file("../AlchemicLibrary")
