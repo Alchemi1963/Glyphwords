@@ -1,5 +1,14 @@
 xp_boost:
+  enabled: true
   displayName: '&aXP Boost'
   maxLevel: 3
-  multiplier: 1.5
   chance: 25.0
+  
+  #xp multiplier, this is multiplied by the enchantment level as well.
+  multiplier: 1.5
+  
+infinity_cross:
+  enabled: true
+  displayName: 'Infinity+'
+  chance: 15.0
+  

@@ -90,7 +90,7 @@ shadowJar {
 	archiveVersion = project.version
 	
 	doFirst{
-		relocate 'de.tr7zw.changeme.nbtapi', 'de.tr7zw.alchemi.nbtapi'
+		relocate 'de.tr7zw.changeme.nbtapi', 'de.tr7zw.glyphwords.nbtapi'
 	
 		project.logger.lifecycle 'Building jar file...'
 		project.logger.lifecycle 'Version ' + project.version

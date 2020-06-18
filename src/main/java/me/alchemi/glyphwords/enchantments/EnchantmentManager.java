@@ -1,6 +1,7 @@
 package me.alchemi.glyphwords.enchantments;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,8 +20,8 @@ import com.google.common.collect.Sets;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.alchemi.al.configurations.Messenger;
+import me.alchemi.al.util.NumUtil;
 import me.alchemi.glyphwords.Config.Options;
-import me.alchemi.glyphwords.util.RomanNumber;
 
 public class EnchantmentManager implements Listener{
 
@@ -28,7 +29,8 @@ public class EnchantmentManager implements Listener{
 	
 	public enum Enchantments {
 		
-		XP_BOOST(EnchantmentXP.class);
+		XP_BOOST(EnchantmentXP.class),
+		INFINITY_CROSS(EnchantmentInfinityCross.class);
 		
 		private Enchantment instance;
 		private Class<? extends Enchantment> clazz;
@@ -69,7 +71,10 @@ public class EnchantmentManager implements Listener{
 			if (e.getCursor().getType() == Options.BOOK_ITEM.asMaterial()) {
 				
 				ItemStack current = e.getCurrentItem().clone();
-				for (Enchantment ench : getEnchantments(e.getCursor())) {
+				Set<Enchantment> enchants = getEnchantments(e.getCursor());
+				if (!canEnchantAny(enchants, current)) return;
+				
+				for (Enchantment ench : enchants) {
 					current = ench.apply(current, ench.getLevel(e.getCursor()));
 				}
 				current = buildLore(current);
@@ -80,7 +85,9 @@ public class EnchantmentManager implements Listener{
 				
 			} else {
 				ItemStack current = e.getCursor().clone();
-				for (Enchantment ench : getEnchantments(e.getCurrentItem())) {
+				Set<Enchantment> enchants = getEnchantments(e.getCurrentItem());
+				if (!canEnchantAny(enchants, current)) return;				
+				for (Enchantment ench : enchants) {
 					current = ench.apply(current, ench.getLevel(e.getCurrentItem()));
 				}
 				current = buildLore(current);
@@ -91,6 +98,13 @@ public class EnchantmentManager implements Listener{
 				
 			}
 		}
+	}
+	
+	public boolean canEnchantAny(Collection<? extends Enchantment> enchants, ItemStack item) {
+		for (Enchantment e : enchants) {
+			if (e.canEnchant(item)) return true;
+		}
+		return false;
 	}
 	
 	public static boolean isItemEnchanted(ItemStack item) {
@@ -119,7 +133,8 @@ public class EnchantmentManager implements Listener{
 		List<String> lore = new ArrayList<String>();
 		
 		for (Enchantment ench : getEnchantments(item)) {
-			lore.add(Messenger.formatString("&r&7" + ench.getDisplayName() + " &r&7" + RomanNumber.toRoman(ench.getLevel(item))));
+			if (ench.getMaxLevel() != (short)1) lore.add(Messenger.formatString("&r&7" + ench.getDisplayName() + " &r&7" + NumUtil.toRoman(ench.getLevel(item))));
+			else lore.add(Messenger.formatString("&r&7" + ench.getDisplayName()));
 		}
 		
 		ItemMeta meta = item.getItemMeta();

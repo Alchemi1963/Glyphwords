@@ -7,3 +7,8 @@ xp_boost:
   #xp multiplier, this is multiplied by the enchantment level as well.
   multiplier: 1.5
   
+infinity_cross:
+  enabled: true
+  displayName: 'Infinity+'
+  chance: 15.0
+  

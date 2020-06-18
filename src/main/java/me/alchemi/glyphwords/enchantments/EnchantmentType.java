@@ -49,6 +49,7 @@ public enum EnchantmentType {
 	}
 	
 	public boolean testItem(ItemStack item) {
+		if (this == CUSTOM) return true;
 		return item.getType().isItem() && !item.getType().isBlock() && (materials.contains(item.getType()) || item.getType() == Options.BOOK_ITEM.asMaterial());
 	}
 	

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -36,7 +37,7 @@ public abstract class Enchantment implements Listener {
 
 		this.registryName = registryName;
 		this.displayName = ConfigEnum.ENCHANTMENTS.getConfig().getString(String.join(".", registryName, "displayName"));
-		if (displayName.isEmpty()) displayName = registryName;
+		if (displayName == null || displayName.isEmpty()) displayName = registryName;
 		
 		this.type = type;
 		
@@ -49,6 +50,9 @@ public abstract class Enchantment implements Listener {
 	abstract boolean hasConflicting(ItemStack item);
 	
 	public boolean canEnchant(ItemStack item) {
+		if (type == EnchantmentType.CUSTOM) {
+			return (!(!customType.contains(item.getType()) || hasConflicting(item) || getLevel(item) == maxLevel));
+		}
 		return !(!type.testItem(item) || hasConflicting(item) || getLevel(item) == maxLevel);
 	}
 	
@@ -66,14 +70,20 @@ public abstract class Enchantment implements Listener {
 					nbtlist.getCompound(registryName).setShort("level", level);
 				}
 				return nbti.getItem();
+				
+			} else {
+				NBTCompound nbtc = nbtlist.addCompound(registryName);
+				nbtc.setShort("level", (short) 1);
+				return nbti.getItem();
 			}
 		} else {
+			
 			nbti.setBoolean("glyph.enchanted", true);
 			NBTCompound nbtc = nbti.addCompound("glyph.enchantments").addCompound(registryName);
 			nbtc.setShort("level", level);
 			return nbti.getItem();
+			
 		}
-		return item;
 	}
 	
 	public ItemStack createBook(short level) {
@@ -101,8 +111,13 @@ public abstract class Enchantment implements Listener {
 	}
 	
 	public boolean hasItem(ItemStack item) {
+		if (item == null || item.getType() == Material.AIR || item.getAmount() == 0) return false;
 		NBTItem nbti = new NBTItem(item);
 		return EnchantmentManager.isItemEnchanted(nbti) && nbti.getCompound("glyph.enchantments").hasKey(registryName);
+	}
+	
+	public Hand isPlayerHolding(LivingEntity player) {
+		return isPlayerHolding((Player)player);
 	}
 	
 	public Hand isPlayerHolding(Player player) {

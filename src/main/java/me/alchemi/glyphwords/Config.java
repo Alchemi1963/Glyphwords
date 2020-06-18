@@ -27,7 +27,7 @@ public class Config extends ConfigBase{
 
 	public static enum ConfigEnum implements IConfigEnum{
 		CONFIG(new File(Glyph.getInstance().getDataFolder(), "config.yml"), 2),
-		ENCHANTMENTS(new File(Glyph.getInstance().getDataFolder(), "enchantments.yml"), 3);
+		ENCHANTMENTS(new File(Glyph.getInstance().getDataFolder(), "enchantments.yml"), 4);
 
 		final File file;
 		final int version;
@@ -159,7 +159,8 @@ public class Config extends ConfigBase{
 		
 		XP_BOOST_MAXLEVEL("xp_boost.maxLevel"),
 		XP_BOOST_MULTIPLIER("xp_boost.multiplier"),
-		XP_BOOST_CHANCE("xp_boost.chance");
+		XP_BOOST_CHANCE("xp_boost.chance"),
+		INFINITY_CROSS_CHANCE("infinity_cross.chance");
 		
 		private Object value;
 		public final String key;
