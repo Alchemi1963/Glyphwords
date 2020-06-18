@@ -58,7 +58,6 @@ public class EnchantmentManager implements Listener{
 		}
 		
 		public static boolean hasKey(String key) {
-			System.out.println(Enchantments.valueOf(key.toUpperCase()));
 			return Enchantments.valueOf(key.toUpperCase()) != null;
 		}
 		

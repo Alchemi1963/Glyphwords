@@ -1,0 +1,5 @@
+xp_boost:
+  displayName: '&aXP Boost'
+  maxLevel: 3
+  multiplier: 1.5
+  chance: 25.0

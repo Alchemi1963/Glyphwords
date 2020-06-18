@@ -1,2 +1,9 @@
-enchantment:
-  xp_boost: &aXP Boost
+rarityDisplayBook: '\n&5Rarity: &r'
+
+rarities:
+  tier1: '&4Common'
+  tier2: '&aUncommon'
+  tier3: '&9Rare'
+  tier4: '&dEpic'
+  tier5: '&6&lLegendary'
+  
