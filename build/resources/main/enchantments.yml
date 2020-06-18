@@ -2,7 +2,7 @@ xp_boost:
   enabled: true
   displayName: '&aXP Boost'
   maxLevel: 3
-  chance: 25.0
+  chance: 24.0
   
   #xp multiplier, this is multiplied by the enchantment level as well.
   multiplier: 1.5
@@ -11,4 +11,61 @@ infinity_cross:
   enabled: true
   displayName: 'Infinity+'
   chance: 15.0
+  
+power_cross:
+  enabled: true
+  displayName: 'Power+'
+  maxLevel: 5
+  chance: 40.0
+  
+  #How much the power should increase per level.
+  powerIncrease: 0.5
+  
+explosive_tip:
+  enabled: true
+  displayName: '&4Explosive Tip'
+  chance: 5.0
+  
+  explosionChance: 30.0
+  
+  #Should the explosion damage blocks?
+  damageBlocks: false
+  
+  #Should the explosion create fire?
+  setFire: true
+  
+  #The power of the explosion
+  power: 2
+  
+damage_fullmoon:
+  enabled: true
+  displayName: '&8Wolfsbane'
+  chance: 10.5
+  maxLevel: 3
+  
+damage_noon:
+  enabled: true
+  displayName: '&6Sunpraiser'
+  chance: 10.5
+  maxLevel: 3
+  
+extra_speed:
+  enabled: true
+  displayName: '&f&oHermes'' Blessing'
+  chance: 48
+  maxLevel: 2
+  
+  #Extra speed is calculated by level/division
+  #Level 1 divided by 2 equals to +50% speed
+  division: 2
+  
+attack_fast:
+  enabled: true
+  displayName: '&f&lCocaine'
+  chance: 15.0
+  maxLevel: 2
+  
+  #Extra speed is calculated by level/division
+  #Level 1 divided by 2 equals to +50% speed
+  division: 4
   

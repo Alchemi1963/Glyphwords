@@ -1,9 +1,6 @@
-package me.alchemi.glyphwords.enchantments;
+package me.alchemi.glyphwords;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.bukkit.event.Event.Result;
@@ -13,15 +10,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import com.google.common.collect.Sets;
-
-import de.tr7zw.changeme.nbtapi.NBTCompound;
-import de.tr7zw.changeme.nbtapi.NBTItem;
-import me.alchemi.al.configurations.Messenger;
-import me.alchemi.al.util.NumUtil;
 import me.alchemi.glyphwords.Config.Options;
+import me.alchemi.glyphwords.enchantments.Enchantment;
+import me.alchemi.glyphwords.enchantments.EnchantmentAttackFast;
+import me.alchemi.glyphwords.enchantments.EnchantmentDamageFullMoon;
+import me.alchemi.glyphwords.enchantments.EnchantmentDamageNoon;
+import me.alchemi.glyphwords.enchantments.EnchantmentExplosiveTip;
+import me.alchemi.glyphwords.enchantments.EnchantmentExtraSpeed;
+import me.alchemi.glyphwords.enchantments.EnchantmentInfinityCross;
+import me.alchemi.glyphwords.enchantments.EnchantmentPowerCross;
+import me.alchemi.glyphwords.enchantments.EnchantmentXP;
+import me.alchemi.glyphwords.util.EnchantUtil;
 
 public class EnchantmentManager implements Listener{
 
@@ -30,7 +30,13 @@ public class EnchantmentManager implements Listener{
 	public enum Enchantments {
 		
 		XP_BOOST(EnchantmentXP.class),
-		INFINITY_CROSS(EnchantmentInfinityCross.class);
+		INFINITY_CROSS(EnchantmentInfinityCross.class),
+		POWER_CROSS(EnchantmentPowerCross.class),
+		EXPLOSIVE_TIP(EnchantmentExplosiveTip.class),
+		DAMAGE_FULLMOON(EnchantmentDamageFullMoon.class),
+		DAMAGE_NOON(EnchantmentDamageNoon.class),
+		EXTRA_SPEED(EnchantmentExtraSpeed.class),
+		ATTACK_FAST(EnchantmentAttackFast.class);
 		
 		private Enchantment instance;
 		private Class<? extends Enchantment> clazz;
@@ -50,9 +56,12 @@ public class EnchantmentManager implements Listener{
 		}
 		
 		public Enchantment getInstance() {
-			
-			return instance;
-			
+			return instance;	
+		}
+		
+		@Override
+		public String toString() {
+			return instance.getRegistryName();
 		}
 		
 		public static Enchantment getEnchantment(String key) {
@@ -60,37 +69,46 @@ public class EnchantmentManager implements Listener{
 		}
 		
 		public static boolean hasKey(String key) {
-			return Enchantments.valueOf(key.toUpperCase()) != null;
+			
+			try {
+				Enchantments.valueOf(key.toUpperCase());
+				return true;
+			} catch (IllegalArgumentException e) {
+				return false;
+			}
 		}
 		
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void applyToItem(InventoryClickEvent e) {
-		if (e.getAction() == InventoryAction.SWAP_WITH_CURSOR) {
+		if (e.getAction() == InventoryAction.SWAP_WITH_CURSOR || e.getAction() == InventoryAction.PLACE_ALL) {
+			if (e.getCursor() == null || e.getCurrentItem() == null) return;
+			
 			if (e.getCursor().getType() == Options.BOOK_ITEM.asMaterial()) {
 				
 				ItemStack current = e.getCurrentItem().clone();
-				Set<Enchantment> enchants = getEnchantments(e.getCursor());
+				Set<Enchantment> enchants = EnchantUtil.getEnchantments(e.getCursor());
 				if (!canEnchantAny(enchants, current)) return;
 				
 				for (Enchantment ench : enchants) {
 					current = ench.apply(current, ench.getLevel(e.getCursor()));
 				}
-				current = buildLore(current);
+				current = EnchantUtil.buildLore(current);
 				
 				e.getWhoClicked().setItemOnCursor(null);
 				e.setCurrentItem(current);
 				e.setResult(Result.DENY);
 				
-			} else {
+			} else if (e.getCurrentItem().getType() == Options.BOOK_ITEM.asMaterial()) {
+				
 				ItemStack current = e.getCursor().clone();
-				Set<Enchantment> enchants = getEnchantments(e.getCurrentItem());
+				Set<Enchantment> enchants = EnchantUtil.getEnchantments(e.getCurrentItem());
 				if (!canEnchantAny(enchants, current)) return;				
 				for (Enchantment ench : enchants) {
 					current = ench.apply(current, ench.getLevel(e.getCurrentItem()));
 				}
-				current = buildLore(current);
+				current = EnchantUtil.buildLore(current);
 				
 				e.getWhoClicked().setItemOnCursor(current);
 				e.setCurrentItem(null);
@@ -105,41 +123,5 @@ public class EnchantmentManager implements Listener{
 			if (e.canEnchant(item)) return true;
 		}
 		return false;
-	}
-	
-	public static boolean isItemEnchanted(ItemStack item) {
-		return isItemEnchanted(new NBTItem(item));
-	}
-
-	public static boolean isItemEnchanted(NBTItem nbti) {
-		return nbti.hasNBTData() && nbti.hasKey("glyph.enchanted");
-	}
-	
-	public static Set<Enchantment> getEnchantments(ItemStack item) {
-		NBTItem nbti = new NBTItem(item);
-		if (!isItemEnchanted(nbti)) return Sets.newHashSet();
-		
-		Set<Enchantment> enchs = new HashSet<Enchantment>();
-		NBTCompound nbtlist = nbti.getCompound("glyph.enchantments");
-		for (String key : nbtlist.getKeys()) {
-			if (Enchantments.hasKey(key)) {
-				enchs.add(Enchantments.getEnchantment(key));
-			}
-		}
-		return enchs;
-	}
-	
-	public static ItemStack buildLore(ItemStack item) {
-		List<String> lore = new ArrayList<String>();
-		
-		for (Enchantment ench : getEnchantments(item)) {
-			if (ench.getMaxLevel() != (short)1) lore.add(Messenger.formatString("&r&7" + ench.getDisplayName() + " &r&7" + NumUtil.toRoman(ench.getLevel(item))));
-			else lore.add(Messenger.formatString("&r&7" + ench.getDisplayName()));
-		}
-		
-		ItemMeta meta = item.getItemMeta();
-		meta.setLore(lore);
-		item.setItemMeta(meta);
-		return item;
 	}
 }

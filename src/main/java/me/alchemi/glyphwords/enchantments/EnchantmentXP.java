@@ -17,14 +17,24 @@ public class EnchantmentXP extends Enchantment {
 	
 	@EventHandler
 	public void deathEvent(EntityDeathEvent e) {
-		if (e.getEntity().getKiller() == null || isPlayerHolding(e.getEntity().getKiller()) == null) return;
+		if (e.getEntity().getKiller() == null || !isPlayerHolding(e.getEntity().getKiller())) return;
 		
 		short level = getLevel(e.getEntity().getKiller().getInventory().getItemInMainHand());
 		e.setDroppedExp((int) (e.getDroppedExp() * EnchantmentOptions.XP_BOOST_MULTIPLIER.asDouble() * level));
 	}
 
 	@Override
-	boolean hasConflicting(ItemStack item) {
+	public boolean hasConflicting(ItemStack item) {
+		return false;
+	}
+	
+	@Override
+	public boolean isConflicting(org.bukkit.enchantments.Enchantment enchant) {
+		return false;
+	}
+	
+	@Override
+	public boolean isConflicting(Enchantment enchant) {
 		return false;
 	}
 	

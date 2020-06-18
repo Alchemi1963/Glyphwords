@@ -5,18 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.inventory.ItemStack;
 
 import me.alchemi.al.configurations.SexyConfiguration;
 import me.alchemi.al.objects.base.ConfigBase;
 
-public class Config extends ConfigBase{
+public class Config extends ConfigBase {
 
 	public Config() throws FileNotFoundException, IOException, InvalidConfigurationException {
 		super(Glyph.getInstance());
@@ -27,7 +23,7 @@ public class Config extends ConfigBase{
 
 	public static enum ConfigEnum implements IConfigEnum{
 		CONFIG(new File(Glyph.getInstance().getDataFolder(), "config.yml"), 2),
-		ENCHANTMENTS(new File(Glyph.getInstance().getDataFolder(), "enchantments.yml"), 4);
+		ENCHANTMENTS(new File(Glyph.getInstance().getDataFolder(), "enchantments.yml"), 7);
 
 		final File file;
 		final int version;
@@ -72,68 +68,10 @@ public class Config extends ConfigBase{
 			this.key = key;
 			get();
 		}
-				
-		@Override
-		public void get() {
-			value = ConfigEnum.CONFIG.getConfig().get(key);
-		}
-		
+
 		@Override
 		public Object value() {
 			return value;
-		}
-		
-		@Override
-		public boolean asBoolean() {
-			return Boolean.parseBoolean(asString());
-		}
-		
-		@Override
-		public String asString() {
-			return String.valueOf(value);
-		}
-		
-		@Override
-		public Sound asSound() {
-			
-			return Sound.valueOf(asString());
-		}
-		
-		@SuppressWarnings("unchecked")
-		@Override
-		public List<String> asStringList() {
-			try {
-				return (List<String>) value;
-			} catch (ClassCastException e) { return null; }
-		}
-		
-		@Override
-		public int asInt() {
-			return Integer.valueOf(asString());
-		}
-		
-		public double asDouble() {
-			return Double.valueOf(asString());
-		}
-		
-		@Override
-		public ItemStack asItemStack() {
-			try {
-				return (ItemStack) value;
-			} catch (ClassCastException e) { return null; }
-		}
-		
-		@Override
-		public Material asMaterial() {
-			return Material.getMaterial(asString().toUpperCase());
-		}
-		
-		@SuppressWarnings("unchecked")
-		@Override
-		public List<Integer> asIntList(){
-			try {
-				return (List<Integer>) value;
-			} catch (ClassCastException e) { return null; }
 		}
 
 		@Override
@@ -146,12 +84,9 @@ public class Config extends ConfigBase{
 			return ConfigEnum.CONFIG.getConfig();
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
-		public List<Float> asFloatList() {
-			try {
-				return (List<Float>) value;
-			} catch (ClassCastException e) { return null; }
+		public void get() {
+			value = getConfig().get(key);
 		}
 	}
 	
@@ -160,7 +95,25 @@ public class Config extends ConfigBase{
 		XP_BOOST_MAXLEVEL("xp_boost.maxLevel"),
 		XP_BOOST_MULTIPLIER("xp_boost.multiplier"),
 		XP_BOOST_CHANCE("xp_boost.chance"),
-		INFINITY_CROSS_CHANCE("infinity_cross.chance");
+		INFINITY_CROSS_CHANCE("infinity_cross.chance"),
+		POWER_CROSS_MAXLEVEL("power_cross.maxLevel"),
+		POWER_CROSS_CHANCE("power_cross.chance"),
+		POWER_CROSS_POWERINCREASE("power_cross.powerIncrease"),
+		EXPLOSIVE_TIP_CHANCE("explosive_tip.chance"),
+		EXPLOSIVE_TIP_EXPLOSIONCHANCE("explosive_tip.explosionChance"),
+		EXPLOSIVE_TIP_DAMAGEBLOCKS("explosive_tip.damageBlocks"),
+		EXPLOSIVE_TIP_SETFIRE("explosive_tip.setFire"),
+		EXPLOSIVE_TIP_POWER("explosive_tip.power"),
+		DAMAGE_FULLMOON_CHANCE("damage_fullmoon.chance"),
+		DAMAGE_FULLMOON_MAXLEVEL("damage_fullmoon.maxLevel"),
+		DAMAGE_NOON_CHANCE("damage_noon.chance"),
+		DAMAGE_NOON_MAXLEVEL("damage_noon.maxLevel"),
+		EXTRA_SPEED_CHANCE("extra_speed.chance"),
+		EXTRA_SPEED_MAXLEVEL("extra_speed.maxLevel"),
+		EXTRA_SPEED_DIVISION("extra_speed.division"),
+		ATTACK_FAST_CHANCE("attack_fast.chance"),
+		ATTACK_FAST_MAXLEVEL("attack_fast.maxLevel"),
+		ATTACK_FAST_DIVISION("attack_fast.division");
 		
 		private Object value;
 		public final String key;
@@ -171,66 +124,8 @@ public class Config extends ConfigBase{
 		}
 				
 		@Override
-		public void get() {
-			value = ConfigEnum.ENCHANTMENTS.getConfig().get(key);
-		}
-		
-		@Override
 		public Object value() {
 			return value;
-		}
-		
-		@Override
-		public boolean asBoolean() {
-			return Boolean.parseBoolean(asString());
-		}
-		
-		@Override
-		public String asString() {
-			return String.valueOf(value);
-		}
-		
-		@Override
-		public Sound asSound() {
-			
-			return Sound.valueOf(asString());
-		}
-		
-		@SuppressWarnings("unchecked")
-		@Override
-		public List<String> asStringList() {
-			try {
-				return (List<String>) value;
-			} catch (ClassCastException e) { return null; }
-		}
-		
-		@Override
-		public int asInt() {
-			return Integer.valueOf(asString());
-		}
-		
-		public double asDouble() {
-			return Double.valueOf(asString());
-		}
-		
-		@Override
-		public ItemStack asItemStack() {
-			try {
-				return (ItemStack) value;
-			} catch (ClassCastException e) { return null; }
-		}
-		
-		@Override
-		public Material asMaterial() {
-			return Material.getMaterial(asString().toUpperCase());
-		}
-		
-		@SuppressWarnings("unchecked")
-		@Override
-		public List<Integer> asIntList(){
-			try {
-				return (List<Integer>) value;
-			} catch (ClassCastException e) { return null; }
 		}
 
 		@Override
@@ -240,15 +135,12 @@ public class Config extends ConfigBase{
 
 		@Override
 		public SexyConfiguration getConfig() {
-			return ConfigEnum.CONFIG.getConfig();
+			return ConfigEnum.ENCHANTMENTS.getConfig();
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
-		public List<Float> asFloatList() {
-			try {
-				return (List<Float>) value;
-			} catch (ClassCastException e) { return null; }
+		public void get() {
+			value = getConfig().get(key);
 		}
 	}
 	

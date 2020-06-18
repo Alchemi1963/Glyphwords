@@ -11,7 +11,7 @@ commands:
   giveenchant:
     permission: glyphwords.enchant.give
     description: Give enchanted book to player
-    usage: /giveenchant <player> <enchant>
+    usage: /giveenchant <enchantments> <player>
     
 permissions:
   glyphwords.enchant.give:

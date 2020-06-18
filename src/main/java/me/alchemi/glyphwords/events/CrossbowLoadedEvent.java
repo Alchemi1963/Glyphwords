@@ -1,9 +1,12 @@
 package me.alchemi.glyphwords.events;
 
+import java.util.List;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.CrossbowMeta;
 import org.jetbrains.annotations.NotNull;
 
 public class CrossbowLoadedEvent extends Event {
@@ -29,6 +32,10 @@ public class CrossbowLoadedEvent extends Event {
 	
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public List<ItemStack> getProjectiles() {
+		return ((CrossbowMeta)bow.getItemMeta()).getChargedProjectiles();
 	}
 	
 	@Override

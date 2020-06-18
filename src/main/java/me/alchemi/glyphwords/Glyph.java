@@ -7,9 +7,10 @@ import org.bukkit.configuration.InvalidConfigurationException;
 
 import me.alchemi.al.configurations.Messenger;
 import me.alchemi.al.objects.base.PluginBase;
+import me.alchemi.glyphwords.EnchantmentManager.Enchantments;
 import me.alchemi.glyphwords.commands.GiveCommand;
-import me.alchemi.glyphwords.enchantments.EnchantmentManager;
-import me.alchemi.glyphwords.enchantments.EnchantmentManager.Enchantments;
+import me.alchemi.glyphwords.commands.GiveTabcompleter;
+import me.alchemi.glyphwords.listeners.EnchantListener;
 
 public class Glyph extends PluginBase {
 	
@@ -36,6 +37,7 @@ public class Glyph extends PluginBase {
 		
 		EnchantmentManager.instance = new EnchantmentManager();
 		Bukkit.getPluginManager().registerEvents(EnchantmentManager.instance, this);		
+		Bukkit.getPluginManager().registerEvents(new EnchantListener(), this);
 		
 		enableEnchantments();
 		
@@ -57,6 +59,7 @@ public class Glyph extends PluginBase {
 	
 	public void enableCommands() {
 		getCommand("giveenchant").setExecutor(new GiveCommand());
+		getCommand("giveenchant").setTabCompleter(new GiveTabcompleter());
 		
 		//getCommand("COMMAND").setTabCompleter(new TabCompleter());
 	}
